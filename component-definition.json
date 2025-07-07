@@ -48,6 +48,14 @@
       "id": "blocks",
       "components": [
         {
+          "mea": {
+            "label": "MEA Block",
+            "icon": "box",
+            "variants": ["default"]
+          }
+        },
+
+        {
           "title": "Accordion",
           "id": "accordion",
           "plugins": {

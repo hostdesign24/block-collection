@@ -1,5 +1,16 @@
 [
   {
+    "mea": {
+      "default": {
+        "title": { "type": "text", "label": "Title" },
+        "description": { "type": "textarea", "label": "Description" },
+        "cta": { "type": "text", "label": "Button Text" },
+        "link": { "type": "url", "label": "Button Link" }
+      }
+    }
+  },
+
+  {
     "id": "page-metadata",
     "fields": [
       {
