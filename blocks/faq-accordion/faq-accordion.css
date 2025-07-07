@@ -1,0 +1,686 @@
+/* Rittal-Style FAQ Accordion */
+.faq-accordion-enhanced {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    font-family: 'Arial', 'Helvetica Neue', sans-serif;
+    background: #ffffff;
+}
+
+.faq-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    text-align: center;
+    margin-bottom: 3rem;
+    line-height: 1.2;
+}
+
+/* Controls Section - Horizontal layout like the image */
+.faq-controls {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    padding: 0;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    align-items: flex-start; /* 👈 allow top alignment */
+    flex-wrap: wrap; /* 👈 important for wrapping in smaller screens */
+}
+
+
+/* Filter Section - Take remaining space, vertical layout */
+.faq-filters-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+    min-width: 200px;
+    margin-right: 1rem; /* Space before search bar */
+    align-self: stretch; /* ensure it fills vertical space */
+}
+
+.faq-hierarchical-filter-container {
+    width: 100%;
+}
+
+.faq-filter-levels {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.faq-filter-level {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* Dropdown Container Styling - Select-like appearance */
+.faq-filter-dropdown {
+    position: relative;
+    width: 100%;
+    background:#f5f5f7;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+    height: 52px;
+}
+
+
+
+
+
+/* Dropdown Display - Select-like styling */
+.faq-filter-display {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    font-size: 14px;
+    color: #333;
+    border: none;
+    width: 100%;
+    height: 100%;
+    text-align: left;
+    cursor: pointer;
+    font-weight: 400;
+    border-radius: 4px;
+    background:#f5f5f7;
+}
+
+.faq-filter-text {
+    flex: 1;
+    text-align: left;
+    padding: 0;
+    color: black;
+    font-size: 18px;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.faq-filter-display.placeholder .faq-filter-text {
+    color: black;
+    font-size: 16px;
+}
+
+.faq-filter-display.selected .faq-filter-text {
+    color: #333;
+    font-weight: 600;
+}
+
+/* Right side controls - Select-like styling */
+.faq-filter-controls {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Clear button (X) - Select-like style */
+.faq-filter-clear {
+    width: 25px;
+    height: 25px;
+    border: none;
+    background: transparent;
+    color: #999;
+    cursor: pointer;
+    font-size: 14px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+    font-weight: normal;
+    padding: 0;
+}
+
+.faq-filter-clear svg {
+    width: 45px;
+    height: 45px;
+    color: black;
+    opacity: 0.8;
+    font-weight: 400;
+}
+
+.faq-filter-clear:hover {
+    color: #666;
+}
+
+.faq-filter-dropdown.has-selection .faq-filter-clear {
+    display: flex;
+}
+
+/* Dropdown arrow - Select-like styling */
+.faq-filter-arrow {
+    width: 16px;
+    height: 16px;
+    color: #2b2b2b;
+    font-size: 12px;
+    transition: transform 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.faq-filter-arrow svg {
+    width: 15px;
+    height: 15px;
+    fill: currentColor;
+}
+
+.faq-filter-dropdown.open .faq-filter-arrow {
+    transform: rotate(180deg);
+}
+
+/* Always show dropdown arrow */
+.faq-filter-dropdown .faq-filter-arrow {
+    display: flex;
+}
+
+/* Dropdown options - Keep existing style but improve */
+.faq-filter-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #f5f5f7;
+    border: none;
+    z-index: 10;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+}
+
+.faq-filter-dropdown.open .faq-filter-options {
+    display: block;
+}
+.faq-filter-dropdown.open .faq-filter-display .faq-filter-text {
+    opacity: 0.4; /* Adjust to taste */
+}
+
+
+.faq-filter-option {
+    margin: 22px 17px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: background-color 0.2s ease;
+    font-size: 16px;
+    background: #f5f5f7;
+    color: black;
+}
+
+
+.selected-option {
+    font-size: 18px !important;
+    font-weight: 700;
+    border-bottom: 2px solid black !important;
+}
+
+.faq-filter-option:hover {
+    border-bottom: 2px solid #e50043;
+}
+
+
+
+.faq-filter-option.selected {
+    background-color: #f0f0f0;
+    font-weight: 500;
+}
+
+/* Subcategory levels - horizontal layout */
+.faq-filter-level-1 .faq-filter-dropdown,
+.faq-filter-level-2 .faq-filter-dropdown {
+    margin-left: 0;
+    width: 100%;
+}
+
+/* Show dropdowns based on selection - vertical layout */
+.faq-filter-dropdown {
+    display: none;
+}
+
+.faq-filter-level-0 .faq-filter-dropdown {
+    display: block;
+}
+
+.faq-filter-dropdown.has-selection + .faq-filter-level .faq-filter-dropdown,
+.faq-filter-level.has-active-parent .faq-filter-dropdown {
+    display: block;
+}
+
+/* Hide the old category list styles */
+.faq-category-list,
+.faq-category-item,
+.faq-filter-select {
+    display: none;
+}
+
+/* Search Section - CHANGED: Equal width with category */
+.faq-search-container {
+    position: relative;
+    display: flex;
+    flex: 1; /* CHANGED: Equal space with category instead of flex: 0 0 auto */
+    min-width: 200px; /* CHANGED: Reduced from 250px */
+    margin-left: 0;
+    height: 51px;
+}
+
+.faq-search-input {
+    flex: 1;
+    width: 100%;
+    padding: 8px 16px;
+    font-size: 14px;
+    background: white;
+    border: 2px solid black;
+    color: black;
+    font-family: inherit;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+.faq-search-input:hover{
+    border: 2px solid black !important;
+}
+
+.placeholder > span{
+    font-size: 18px;
+    font-weight: normal;
+}
+
+
+/* Search icon with SVG support */
+.faq-search-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 70px;
+    height: auto;
+    background: #e50043;
+    color: white;
+    border: 1px solid #e50043;
+    border-left: none;
+    font-size: 32px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.faq-search-icon svg {
+    width: 35px;
+    height: 35px;
+    fill: currentColor;
+}
+
+/* Auto-suggest dropdown */
+.faq-suggestions {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: calc(100% - 73px); /* 👈 subtract width of .faq-search-icon */
+    background: white;
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: -5px;
+}
+
+
+.faq-suggestion-item {
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    font-size: 16px;
+}
+
+.faq-suggestion-item:hover {
+    background-color: #f8f8f8;
+}
+
+.faq-suggestion-item:last-child {
+    border-bottom: none;
+}
+
+/* Accordion Items - Clean Professional Style */
+.faq-accordion-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    font-family: 'Arial', 'Helvetica Neue', sans-serif;
+}
+
+.faq-item {
+    background: #f5f5f7;
+    border: none;
+    margin-top: 10px;
+    border-radius: 0;
+    overflow: hidden;
+}
+
+.faq-item:last-child {
+    border-bottom: none;
+}
+
+
+.faq-item.active {
+    background-color: #f8f8f8;
+    box-shadow: none;
+}
+
+/* Question Section - Professional Typography */
+.faq-question-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 10px;
+    cursor: pointer;
+    background: #f5f5f7;
+    transition: none;
+    user-select: none;
+    border: none;
+}
+
+.faq-question-container:hover {
+    background-color: transparent;
+}
+
+/*.faq-question-container:focus {*/
+/*    outline: 2px solid #e50043;*/
+/*    outline-offset: 2px;*/
+/*}*/
+
+.faq-item.active .faq-question-container {
+    background-color: transparent;
+    border-bottom: none;
+}
+
+.faq-question {
+    font-size: 18px;
+    line-height: 22px;
+    font-weight: 700;
+    color: black;
+    flex: 1;
+    margin-right: 1rem;
+    text-align: left;
+}
+
+/* Toggle Icon - Minimalist Plus/Minus with SVG support */
+.faq-toggle-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    background: transparent;
+    color: black;
+    border-radius: 0;
+    font-size: 20px;
+    font-weight: 400;
+    transition: color 0.2s ease;
+    flex-shrink: 0;
+    font-family: Arial, sans-serif;
+}
+
+.faq-toggle-icon svg {
+    width: 22px;
+    height: 22px;
+    fill: black;
+}
+
+.faq-item:hover .faq-toggle-icon {
+    color: #e50043;
+}
+
+.faq-item.active .faq-toggle-icon {
+    color: #e50043;
+}
+
+/* Answer Section - Clean Typography */
+.faq-answer-container {
+    height: 0;
+    overflow: hidden;
+    transition: height 370ms ease-in-out;
+    padding-bottom: 5px;
+    opacity: 0;
+}
+
+
+.faq-item.active .faq-answer-container {
+    opacity: 1;
+}
+
+.faq-answer {
+    font-size: 18px;
+    line-height: 24px;
+    padding: 0 10px;
+    color: black;
+}
+
+.faq-answer p {
+    margin: 0 0 16px 0;
+}
+
+.faq-answer p:last-child {
+    margin-bottom: 0;
+}
+
+.faq-answer strong {
+    color: #333;
+    font-weight: 600;
+}
+
+.faq-answer a {
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.faq-answer a:hover {
+    text-decoration: underline;
+}
+
+/* No Results State */
+.faq-no-results {
+    text-align: center;
+    padding: 60px 20px;
+    color: #888;
+    font-size: 16px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+}
+
+/* Remove animations for professional look */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.faq-item {
+    animation: none;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.faq-filter-level {
+    animation: slideDown 0.2s ease-out;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .faq-controls {
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .faq-accordion-enhanced {
+        padding: 20px 15px;
+    }
+
+    .faq-title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .faq-controls {
+        flex-direction: column-reverse;
+        align-items: stretch;
+        gap: 1rem;
+        height: auto;
+    }
+
+    .faq-filters-wrapper {
+        flex: 1;
+        min-width: auto;
+        width: 100%;
+        margin-right: 0;
+        height: 52px;
+    }
+
+    .faq-filter-levels {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .faq-filter-level {
+        width: 100%;
+    }
+
+    .faq-search-container {
+        flex: none;
+        width: 100%;
+        min-width: auto;
+        margin-left: 0;
+    }
+
+    .faq-question-container {
+        padding: 14px 0;
+    }
+
+    .faq-question {
+        font-size: 16px;
+    }
+
+    .faq-answer {
+        font-size: 15px;
+        padding: 0;
+    }
+
+    /* Mobile dropdown adjustments */
+    .faq-filter-display {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+
+    .faq-filter-clear svg {
+        width: 10px;
+        height: 10px;
+    }
+
+    .faq-filter-arrow svg {
+        width: 10px;
+        height: 10px;
+    }
+
+    .faq-filter-option {
+        padding: 8px 12px;
+        font-size: 18px;
+    }
+
+    .faq-item {
+        padding: 0 15px;
+    }
+
+}
+
+@media (max-width: 480px) {
+    .faq-accordion-enhanced {
+        padding: 15px 10px;
+    }
+
+    .faq-title {
+        font-size: 1.75rem;
+    }
+
+    .faq-question {
+        font-size: 15px;
+        margin-right: 0.5rem;
+    }
+
+    .faq-toggle-icon {
+        width: 20px;
+        height: 20px;
+        font-size: 18px;
+    }
+
+    .faq-toggle-icon svg {
+        width: 14px;
+        height: 14px;
+    }
+
+    .faq-answer {
+        font-size: 14px;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .faq-item {
+        border-bottom: 2px solid #000;
+    }
+
+    .faq-question {
+        color: #000;
+    }
+
+    .faq-answer {
+        color: #000;
+    }
+
+    .faq-toggle-icon {
+        color: #000;
+    }
+
+    .faq-item.active .faq-toggle-icon,
+    .faq-item:hover .faq-toggle-icon {
+        color: #e50043;
+    }
+}
+
+/* Print styles */
+@media print {
+    .faq-controls {
+        display: none;
+    }
+
+    .faq-item {
+        break-inside: avoid;
+        border-bottom: 1px solid #000;
+    }
+
+    .faq-item.active .faq-answer-container {
+        max-height: none;
+        padding: 10px 0;
+    }
+
+    .faq-toggle-icon {
+        display: none;
+    }
+
+    .faq-question {
+        color: #000;
+    }
+
+    .faq-answer {
+        color: #000;
+    }
+}
